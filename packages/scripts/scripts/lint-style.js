@@ -11,11 +11,14 @@ const {
 	fromConfigRoot,
 	getCliArgs,
 	hasCliArg,
+	hasFileInCliArgs,
 	hasProjectFile,
 	hasPackageProp,
 } = require( '../utils' );
 
 const args = getCliArgs();
+
+const defaultFilesArgs = ! hasFileInCliArgs ? [ '**/*.{css,scss}' ] : [];
 
 const hasStylelintConfig = hasCliArg( '--config' ) ||
 	hasProjectFile( '.stylelintrc' ) ||
@@ -26,13 +29,13 @@ const hasStylelintConfig = hasCliArg( '--config' ) ||
 	hasProjectFile( '.stylelint.config.js' ) ||
 	hasPackageProp( 'stylelint' );
 
-const config = ! hasStylelintConfig ?
+const defaultConfigArgs = ! hasStylelintConfig ?
 	[ '--config', fromConfigRoot( '.stylelintrc.json' ) ] :
 	[];
 
 const result = spawn(
 	resolveBin( 'stylelint' ),
-	[ ...config, ...args ],
+	[ ...defaultConfigArgs, ...args, ...defaultFilesArgs ],
 	{ stdio: 'inherit' }
 );
 
