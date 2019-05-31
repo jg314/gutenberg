@@ -3,6 +3,7 @@
  */
 import { render } from '@wordpress/element';
 import { registerCoreBlocks } from '@wordpress/block-library';
+import '@wordpress/format-library';
 
 /**
  * Internal dependencies
